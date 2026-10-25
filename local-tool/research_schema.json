@@ -1,0 +1,71 @@
+{
+  "platforms": [
+    {
+      "id": "douyin",
+      "name": "抖音",
+      "icon": "tiktok",
+      "mode": "connect"
+    },
+    {
+      "id": "xiaohongshu",
+      "name": "小红书",
+      "icon": "xiaohongshu",
+      "mode": "native"
+    },
+    {
+      "id": "bilibili",
+      "name": "哔哩哔哩",
+      "icon": "bilibili",
+      "mode": "native"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "icon": "youtube",
+      "mode": "native"
+    }
+  ],
+  "categories": [
+    "全部",
+    "汽车",
+    "美食",
+    "人物故事",
+    "体育",
+    "影视",
+    "科技数码",
+    "旅行",
+    "游戏",
+    "美妆时尚",
+    "生活日常",
+    "萌宠",
+    "家居",
+    "知识科普",
+    "音乐",
+    "母婴亲子",
+    "三农",
+    "搞笑",
+    "财经",
+    "教育"
+  ],
+  "youtube_queries": {
+    "汽车": "car review",
+    "美食": "street food",
+    "人物故事": "biography documentary",
+    "体育": "sports highlights",
+    "影视": "movie explained",
+    "科技数码": "technology review",
+    "旅行": "travel documentary",
+    "游戏": "gaming highlights",
+    "美妆时尚": "makeup tutorial",
+    "生活日常": "daily life vlog",
+    "萌宠": "cute pets",
+    "家居": "home renovation",
+    "知识科普": "science explained",
+    "音乐": "music performance",
+    "母婴亲子": "parenting",
+    "三农": "rural life",
+    "搞笑": "comedy",
+    "财经": "finance documentary",
+    "教育": "education learning"
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "date": "2026-10-25",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "4697b32b65b145e7831ae92bcf91b74cbed95b931d8ab72c934cb9f8a70752e1"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "12a1ae0fe3a939a9a6c76360ab5677bf484c3369648178ec386c767fbf679948"
+    },
+    {
+      "path": "README.md",
+      "sha256": "1fa2a673d5c4fa918745fac61413b144be02dbe2f27d6f0b0e277014450f5f29"
+    },
+    {
+      "path": "local-tool/.gitignore",
+      "sha256": "9ec8b8788439be72ea5ab3a5026a203b370837cc66c973dfefbb9e7df2e99092"
+    },
+    {
+      "path": "local-tool/ADAPTATION.md",
+      "sha256": "4a836e66dbf7ca6bc8a0eb5c183948d3c9e7d940eb714a483faf2dc8d1911cf3"
+    },
+    {
+      "path": "local-tool/DY-READONLY.md",
+      "sha256": "6cfaeaeeded57f9a141bbab832cec9a808501df0ee543a39eedd0389a3911574"
+    },
+    {
+      "path": "local-tool/build-desktop.py",
+      "sha256": "a4644c8063f23cd96ad09a3c845dfbb398d69e4043148ba50d948b3f8feeec34"
+    },
+    {
+      "path": "local-tool/comment_runtime.py",
+      "sha256": "202489ad037bbb250f993fe5465792042ce2561550d25a33c132cf6199e90735"
+    },
+    {
+      "path": "local-tool/comments.py",
+      "sha256": "e34c66908003714ed568c6565bb3069ba3790ccdbc3c7333d53758862d3f0e89"
+    },
+    {
+      "path": "local-tool/desktop-main.m",
+      "sha256": "63399d42e83b9cf5f4089cc19eb36176ccac1f0ebeb7e196ff532bd1e5fb8b06"
+    },
+    {
+      "path": "local-tool/dy-runtime-lock.json",
+      "sha256": "b3faea0cd7d4a1e2c0bab42952967bf1d228118484566d7b7a175f7c31ed9e49"
+    },
+    {
+      "path": "local-tool/index.html",
+      "sha256": "b433f64ca1d3d9affe6f1b4e64e132b02f1b92623bae938df5dfe496f3aaff46"
+    },
+    {
+      "path": "local-tool/launcher.py",
+      "sha256": "d5c3a715603ade99be3ee428fed75adee56c2b214790372c441d09bee24a6f0d"
+    },
+    {
+      "path": "local-tool/operations.py",
+      "sha256": "a8d06116eadc94a580433df003ec8ad0a8d40d8d01f246e7e1cb07d622f65e12"
+    },
+    {
+      "path": "local-tool/package-lock.json",
+      "sha256": "e8f3989e839f529f67b28634ea6c1a63f58cd14e5b81082464b8a65795b1d0d3"
+    },
+    {
+      "path": "local-tool/package.json",
+      "sha256": "7d22349e4c3b9645eaef0a960f7ba7f4ad8d7032d822d2d311f58ecfb68bf10e"
+    },
+    {
+      "path": "local-tool/public/favicon.svg",
+      "sha256": "a8b4ee68ea0fc1b41f565ab449c483e85d0f755327e263b6fd4a1a2ee82c9b0b"
+    },
+    {
+      "path": "local-tool/public/platform-icons/DISCLAIMER.md",
+      "sha256": "5757a1f28eff735a8b5e7425478f367812d71e974530f5bedd01219480965f4a"
+    },
+    {
+      "path": "local-tool/public/platform-icons/LICENSE.md",
+      "sha256": "9046848b63a5c92bff14e4accca80bd987e0623b74adf9226ce5198d312b79d5"
+    },
+    {
+      "path": "local-tool/public/platform-icons/SOURCE.json",
+      "sha256": "5aae8b4c10a8c7c86f9467fcb9cd5550356c41151070e347d14bb8d0bddf1213"
+    },
+    {
+      "path": "local-tool/public/platform-icons/bilibili.svg",
+      "sha256": "0b31005ccf765a9d37be2c42f1d36e44572ccadb088250626d9905ae5d4f3d21"
+    },
+    {
+      "path": "local-tool/public/platform-icons/github.svg",
+      "sha256": "3bf8cceead820aec50d4ee825a3fd02c5a1cd6665cc9cf4cbf3d9c8861a204bb"
+    },
+    {
+      "path": "local-tool/public/platform-icons/kuaishou.svg",
+      "sha256": "6fd3afc958574cf6aafafa5a4085d7903dec61d20e0ee737f632b0c815da764e"
+    },
+    {
+      "path": "local-tool/public/platform-icons/reddit.svg",
+      "sha256": "00e5008d56567543cf956561e61d5bf9bf629f520c7488a4d9a00164c29dd8ba"
+    },
+    {
+      "path": "local-tool/public/platform-icons/sinaweibo.svg",
+      "sha256": "44facf47c6bfa06c312c28acda6aa2ed404ef7f68c2897c8f33ad51b6ba94059"
+    },
+    {
+      "path": "local-tool/public/platform-icons/tiktok.svg",
+      "sha256": "6f54ac8d325faacea8935bdc44cbed60206a6b408641799e5fea1cba7c1a0af7"
+    },
+    {
+      "path": "local-tool/public/platform-icons/xiaohongshu.svg",
+      "sha256": "847cacc807f5c236031a7477381daa67fd829d89f3f80c16a547ff2efe050794"
+    },
+    {
+      "path": "local-tool/public/platform-icons/youtube.svg",
+      "sha256": "5038808acbbc4e6edda16cbeb1cc6dec80e4e4ee4e227e039c41229fa222aa8c"
+    },
+    {
+      "path": "local-tool/public/platform-icons/zhihu.svg",
+      "sha256": "3c8d91d4f30d220a8655f17aa4e119f5be8c0d66f5fcf939aecaed8699c628ce"
+    },
+    {
+      "path": "local-tool/research.py",
+      "sha256": "d3d192a2cc6371254fd48a3b8d52a76fefbb63c90b35dc3dc795456374eaf45a"
+    },
+    {
+      "path": "local-tool/research_ai.py",
+      "sha256": "38d632c24bcbd2529e9298d94bcc62f0822335420361180afcf42cd02ee08bd8"
+    },
+    {
+      "path": "local-tool/research_bili_search.py",
+      "sha256": "3aa5dc2d09d35e3a8318b8e01278ec15110632ec4396ac3561f76b96339caa9e"
+    },
+    {
+      "path": "local-tool/research_bilibili.py",
+      "sha256": "21571d210559e04670d7ea3d8390e5d46acf467136ea882f108a8b80211deb95"
+    },
+    {
+      "path": "local-tool/research_cli.py",
+      "sha256": "aef50f8b9ac9a5309d2cd959e65f4457f2ef63e684dcc2a239d4c168cffc5e6d"
+    },
+    {
+      "path": "local-tool/research_discovery.py",
+      "sha256": "192431e948601e0d32992fa9956f4a9950d528509030152866b6afb24a55772e"
+    },
+    {
+      "path": "local-tool/research_douyin.py",
+      "sha256": "4278ba85682848b95d057bb4ae69c0777a72f538251b688a010dad82ccebaa90"
+    },
+    {
+      "path": "local-tool/research_dy_worker.py",
+      "sha256": "d15598c4109bbbf36ed9793b8be141a8d4c5491b25c83e60da3faa261af5627f"
+    },
+    {
+      "path": "local-tool/research_links.py",
+      "sha256": "5683fd0c15c6a94b4b2cf68b91609d1381ce2ecc83c1d0a017abd2dea543158e"
+    },
+    {
+      "path": "local-tool/research_media.py",
+      "sha256": "e04bc1842ac3206a88df5f1fade4c4a12b5384f4d067252269c61caf262d2083"
+    },
+    {
+      "path": "local-tool/research_media_worker.py",
+      "sha256": "93e94bc5eaa9788311d2b19b6459c05eb8f63ca84bebaa5d356b199a4ffdaf97"
+    },
+    {
+      "path": "local-tool/research_preview.py",
+      "sha256": "f842adb62e8b9689cdc6681fd4e182cd972ffd945d9c142bbb7ff5b7845cb2a8"
+    },
+    {
+      "path": "local-tool/research_report.py",
+      "sha256": "ba5515a405b0844492b42a2ae5f1b68c447ecaf74cb650eca3aa156502f4d987"
+    },
+    {
+      "path": "local-tool/research_report_schema.json",
+      "sha256": "f38772d0d3869fa66924d8ab648ae6c4f0b1b4cebf236fb79865b4843d154a13"
+    },
+    {
+      "path": "local-tool/research_schema.json",
+      "sha256": "e23317b66f1988d0f762a75ca7bb99c21c325427ee745f87247a31a68321cda4"
+    },
+    {
+      "path": "local-tool/research_study.py",
+      "sha256": "1b3ba7f9b9c951e93c3431b284176d106220515ea2ea1a41a0b169aa67399b89"
+    },
+    {
+      "path": "local-tool/research_xhs.py",
+      "sha256": "44bc9a3822a54a848d1540bffe492365264712d4b4fff80b3831bbbd76b960f5"
+    },
+    {
+      "path": "local-tool/research_youtube.py",
+      "sha256": "940b2a233e60ade4485c061f5cbbe00530fea3b48ca7ce64c90a6b9fa1e25b82"
+    },
+    {
+      "path": "local-tool/scene-requirements.txt",
+      "sha256": "237996ca5ce87e27922c7726ad685393864ee7db5f2d0ff6c479cc70163e1e32"
+    },
+    {
+      "path": "local-tool/server.py",
+      "sha256": "cd195f0aeea8ca39d8b1ad53d5a551c94b1fc848386eb5e704403349557bb70b"
+    },
+    {
+      "path": "local-tool/setup_video_tools.py",
+      "sha256": "dbb80bffcfd635909a885f0f2138479c902ebc6143bb82ca8c23bb79d1ab7330"
+    },
+    {
+      "path": "local-tool/src/analysis.jsx",
+      "sha256": "6775476c2bb6ca186ffbb4e56ce82837ddbf4120521bab21cd9d6021a2dc2212"
+    },
+    {
+      "path": "local-tool/src/comments.jsx",
+      "sha256": "2f74a5734365959897ea1435abc32ba6f13a039fbe680c95b7a492bddc2cf459"
+    },
+    {
+      "path": "local-tool/src/main.jsx",
+      "sha256": "e3503180742c2708dbbb298acba935bdebc9e9374a883d71d12cdae52303dbf1"
+    },
+    {
+      "path": "local-tool/src/research-links.jsx",
+      "sha256": "3bd60032e7a54ad620e895f65f2d62f5d2884ab1f6c3c32dc866165c80411f40"
+    },
+    {
+      "path": "local-tool/src/research-media.css",
+      "sha256": "d881c025c82757168b9508e26908683d13f023f0dab5d421844f5c8bc7ce6fde"
+    },
+    {
+      "path": "local-tool/src/research-media.jsx",
+      "sha256": "628b7ac57296bc4ae87ef58265dc60a3b899fefb9f2fc03f697776a95a71204b"
+    },
+    {
+      "path": "local-tool/src/research-report.css",
+      "sha256": "ac6bff6c2123dbffec9148e51d8dd1a1987e005a6aae8b82677491790d837ea5"
+    },
+    {
+      "path": "local-tool/src/research-report.jsx",
+      "sha256": "83e729c14606e8fe0c728f2b6e7f923260daa06259fb08391dbbefa70dc67aa6"
+    },
+    {
+      "path": "local-tool/src/research.css",
+      "sha256": "53da3610122932c62752fcbc72b72866e54ea1486bc8895165a5777e151cd32d"
+    },
+    {
+      "path": "local-tool/src/research.jsx",
+      "sha256": "9fc5cc3b9512a42ce67f2007a36f46cc6ff69c4d1c11a8a0d9028d72b3115594"
+    },
+    {
+      "path": "local-tool/src/styles.css",
+      "sha256": "f215c71ca68a0a9a7ac3d6a0b47fcc9882f1b1db67f8dd25eeb34d25902b48c9"
+    },
+    {
+      "path": "local-tool/src/ui.jsx",
+      "sha256": "6349071b0bb1bfe3e5376802d1b91109569c99f423c6d74023606bafe7f874aa"
+    },
+    {
+      "path": "local-tool/test_ai.py",
+      "sha256": "f19653fda784f85f1a788da6096f0540d5136557b6f357d69054c7c389336a22"
+    },
+    {
+      "path": "local-tool/test_comments.py",
+      "sha256": "2e6db10dfe97c0952810603a43c0b6c2e1cd4e754a29ac1fec2d8d367dfb9ef8"
+    },
+    {
+      "path": "local-tool/test_discovery.py",
+      "sha256": "a3b0d4496b7a5fb77091a244f2ce36f5133b080ded7adf32aab83ae54a612b30"
+    },
+    {
+      "path": "local-tool/test_douyin.py",
+      "sha256": "88f51fade34eb05ec09dccfd01aa0abf2e5bc083db2eaeaf4d7a42784f2ccbee"
+    },
+    {
+      "path": "local-tool/test_links.py",
+      "sha256": "26218335f70910a40bcc104def1f8f50e482d6e7a94076e49fc5a6a1c514e926"
+    },
+    {
+      "path": "local-tool/test_media.py",
+      "sha256": "414f2805fb34074af5dd8e6c9e46613e64ff03e0ed0f6d073a46638a9d25dac4"
+    },
+    {
+      "path": "local-tool/test_operations.py",
+      "sha256": "e300d47e4f9f4e29fe07f9531b7dda54c5624d146ee63a20a424d135323aa6db"
+    },
+    {
+      "path": "local-tool/test_report.py",
+      "sha256": "4a02024330c152223972a1123bb12c222bacead8992f6b36b8b5ff783b2a4350"
+    },
+    {
+      "path": "local-tool/test_research.py",
+      "sha256": "09ac1350f50d2ec43be21c5b415497c69cf05f06a6ffc786fb1b3ad609a1aa5f"
+    },
+    {
+      "path": "local-tool/test_server.py",
+      "sha256": "1fa31119b6ed12af289851d4fc04e1b4053a5666a80b613da32a8bc537f5ee35"
+    },
+    {
+      "path": "local-tool/video-requirements.txt",
+      "sha256": "818e920e6a007ca9e0b634c827266007082a1f3d077b1854bd5e513bc5b4679a"
+    },
+    {
+      "path": "local-tool/vite.config.js",
+      "sha256": "b5b61030d7ad37c3afefd634143055024abad313dd032b773df8b0eb2dfb77de"
+    },
+    {
+      "path": "local-tool/使用说明.md",
+      "sha256": "972d5b3c8c4d87286cfec99f281dd9d24dd678ae8bc5a74946a4557164c83dc6"
+    },
+    {
+      "path": "local-tool/每日工作流.md",
+      "sha256": "bf05887031be2ed30af00e429de32faa71ab8f34db4fbb5ee8fd56e3dd19906d"
+    },
+    {
+      "path": "local-tool/评论回复工作流.md",
+      "sha256": "2a6e6de5fe64568964e71ccad3fa70f39debc274a47a3ce5d32bdf34afdf93af"
+    }
+  ]
+}

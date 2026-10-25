@@ -1,0 +1,34 @@
+/* Keep the current paper palette. One reading column, not nested cards. */
+.research-report .report-readable{padding:0 28px 24px;color:var(--text);font-size:14px}
+.report-readable>*{max-width:900px}
+.report-readable .report-byline{display:flex;gap:8px 20px;flex-wrap:wrap;color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:18px}
+.report-readable .report-recommendation>span{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}
+.report-readable .report-recommendation h3{font-size:21px;line-height:1.55;font-weight:600;letter-spacing:0;margin:0;overflow-wrap:anywhere}
+.report-readable .report-key-points{margin-top:24px}
+.report-readable h4{font-size:14px;line-height:1.6;font-weight:600;margin:0 0 10px}
+.report-readable .report-key-points ul{list-style:none;margin:0;padding:0;display:grid;gap:13px}
+.report-readable .report-key-points li{display:grid;grid-template-columns:144px minmax(0,1fr);gap:16px;align-items:baseline;font-size:14px;line-height:1.65}
+.report-readable .report-key-points strong{font-size:14px;font-weight:600;color:var(--text)}
+.report-readable .report-key-points p,.report-readable .report-key-points li{color:var(--text);white-space:normal}
+.report-readable .report-key-points p{font-size:14px;line-height:1.65;margin:0}
+.report-readable .report-next-steps{margin-top:22px}
+.report-readable .report-next-steps ol{padding-left:20px;margin:0;display:grid;gap:6px}
+.report-readable .report-next-steps li{font-size:14px;line-height:1.7;white-space:normal;color:var(--text);padding-left:3px}
+.report-readable .report-caveat{margin-top:18px;font-size:13px;line-height:1.7;color:var(--muted);white-space:normal}
+.report-readable .report-caveat strong{font-weight:500;color:var(--text);margin-right:10px}
+.report-readable .report-full{margin-top:20px;border-top:1px solid var(--border)}
+.report-readable .report-full>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;cursor:pointer;font-size:13px;font-weight:500;list-style:none;color:var(--text)}
+.report-readable .report-full>summary::-webkit-details-marker{display:none}
+.report-readable .report-full>summary small{font-weight:400;font-size:12px;color:var(--muted);margin-left:10px}
+.report-readable .report-full>summary svg{flex:none;transition:transform .15s}
+.report-readable .report-full[open]>summary svg{transform:rotate(180deg)}
+.report-readable .report-full-content{padding:10px 0 4px}
+.report-readable .report-full-content>h4{margin-top:18px}
+.report-readable .report-full-content>h4:first-child{margin-top:0}
+.report-readable .report-full-content article{padding:16px 0}
+.report-readable .report-full-content article h4{margin:0}
+.report-readable .report-full-content p,.report-readable .report-full-content li{font-size:14px;line-height:1.8;color:var(--text);overflow-wrap:anywhere}
+.report-readable .report-full-content label{font-size:12px;color:var(--muted);margin:10px 0 5px}
+.report-readable .report-full-content ul{padding-left:20px;margin:0}
+@media(max-width:768px){.research-report .report-readable{padding:0 20px 18px}.report-readable .report-recommendation h3{font-size:19px}.report-readable .report-key-points li{grid-template-columns:128px minmax(0,1fr);gap:12px}}
+@media(max-width:480px){.research-report .report-readable{padding:0 18px 16px}.report-readable .report-byline{gap:3px 12px;margin-bottom:16px}.report-readable .report-recommendation h3{font-size:18px;line-height:1.6}.report-readable .report-key-points{margin-top:20px}.report-readable .report-key-points ul{gap:14px}.report-readable .report-key-points li{display:block}.report-readable .report-key-points strong{display:block;margin-bottom:3px}.report-readable .report-next-steps{margin-top:20px}.report-readable .report-caveat strong{display:block;margin:0 0 3px}}
