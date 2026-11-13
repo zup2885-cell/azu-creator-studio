@@ -68,12 +68,15 @@ class Console:
             return {k:doc[k] for k in ('records','jobs','connection')}
 
     def active(self,doc):
-        if any(j['status']=='running' for j in doc['jobs']): raise ValueError('已有浏览器任务运行，请先完成或取消。')
+        if any(j['status']=='running' for j in doc['jobs']): raise ValueError('已有评论任务运行，请先完成或取消。')
 
     def command(self,kind,work=None,plan=None,out=None):
         common=['--profile',str(self.profile),'--timeout','120000']
         if kind=='auth': return [str(NODE),str(MODULE/'src/auth-douyin.mjs'),*common]
-        if kind=='export': return [str(NODE),str(MODULE/'src/export-douyin-comments.mjs'),work['title'],'--limit','200','--no-history','--out',str(out),*common]
+        if kind=='export':
+            from comment_export_runtime import prepare as prepare_export
+            runtime=prepare_export(MODULE,self.root)
+            return [str(NODE),str(runtime/'src/export-douyin-comments.mjs'),work['title'],'--limit','200','--no-history','--out',str(out),*common]
         from comment_runtime import prepare
         runtime=prepare(MODULE,self.root)
         return [str(NODE),str(runtime/'src/reply-douyin-comments.mjs'),str(plan),'--limit','20','--out',str(out),*common]
@@ -82,6 +85,8 @@ class Console:
         if not NODE.is_file() or not (MODULE/'src/comment-workflow.mjs').is_file(): raise ValueError('已安装的评论模块或 Node 不可用。')
         with GUARD, self.transaction() as doc:
             self.active(doc)
+            from studio_jobs import active
+            if active(self.root.parent): raise ValueError('作品数据采集或复盘正在运行，请先等待当前任务完成。')
             job={'id':uid(),'kind':kind,'status':'running','created_at':timestamp(),'message':{'auth':'请在新开的浏览器扫码，返回此页点击“我已登录，保存”。','export':'正在读取未回复评论，最多 200 条。','send':'正在执行已确认批次。'}[kind]}
             plan=None
             if kind=='send':
@@ -143,7 +148,8 @@ class Console:
                 else:
                     try:
                         count=self.merge(doc,job['work'],result)
-                        doc['connection']='verified';stored['message']=f'新增 {count} 条未回复评论；已有记录已去重。'
+                        doc['connection']='verified';stored['message']=f'本作品新增读入 {count} 条评论；已有记录已去重，图片/表情单独标记。'
+                        if isinstance(result.get('collection'),dict):stored['collection']={**result['collection'],'added':count}
                     except ValueError as exc: stored.update(status='failed',message=str(exc))
             if job['kind']=='send': self.sent_result(doc,job,result,error)
         PROCESSES.pop(job['id'],None)
@@ -159,8 +165,15 @@ class Console:
             if not isinstance(item,dict): raise ValueError('评论格式错误。')
             username=''.join(str(item.get('username','')).split()); text=canonical(item.get('commentText',''))
             if not username or not text or len(username)>500 or len(text)>10000: raise ValueError('评论内容为空或长度异常。')
-            key=digest([work['id'],username,text])
-            prepared.append({'id':key,'work_id':work['id'],'work_title':work['title'],'username':username,'text':text,'reply':'','status':'pending','revision':1,'created_at':timestamp(),'work_publish_text':result.get('selectedWork',{}).get('publishText','')})
+            media_only=item.get('mediaOnly') is True
+            media_keys=item.get('mediaKeys',[])
+            if media_only and (not isinstance(media_keys,list) or not 1<=len(media_keys)<=20 or any(not isinstance(k,str) or not k.startswith('/') or len(k)>2000 for k in media_keys)):
+                raise ValueError('图片评论缺少有效的内容标识，已停止导入。')
+            media_keys=sorted(set(media_keys)) if media_only else []
+            key=digest([work['id'],username,text,*media_keys])
+            record={'id':key,'work_id':work['id'],'work_title':work['title'],'username':username,'text':text,'reply':'','status':'media' if media_only else 'pending','revision':1,'created_at':timestamp(),'work_publish_text':result.get('selectedWork',{}).get('publishText','')}
+            if media_only:record.update(manual_only=True,media_keys=media_keys,media_count=len(media_keys),skip_reason='图片/表情已读入，内容尚未识别，请在抖音查看后手动回复。')
+            prepared.append(record)
         seen={r['id'] for r in doc['records']}; added=0
         for r in prepared:
             if r['id'] not in seen: doc['records'].append(r);seen.add(r['id']);added+=1
@@ -194,6 +207,7 @@ class Console:
             r=next((r for r in doc['records'] if r['id']==request.get('id')),None)
             if not r or r['revision']!=request.get('revision'): raise ValueError('记录已更新，请刷新后重试。')
             if r['status'] in TERMINAL: raise ValueError('已执行或正在执行的回复不能再次编辑发送。')
+            if r.get('manual_only'):raise ValueError('图片/表情内容尚未识别，请到抖音查看后手动回复。')
             reply=str(request.get('reply','')).strip()
             if len(reply)>200: raise ValueError('回复最多 200 字，请缩短。')
             status='skip' if request.get('skip') is True else ('draft' if reply else 'pending')
@@ -214,7 +228,7 @@ class Console:
             records={r['id']:r for r in doc['records']};items=[]
             for key in ids:
                 r=records.get(key)
-                if not r or r['status']!='draft' or not r['reply']: raise ValueError('仅已保存的草稿可以预览发送。')
+                if not r or r.get('manual_only') or r['status']!='draft' or not r['reply']: raise ValueError('仅已保存的文字草稿可以预览发送；图片评论请到抖音查看。')
                 items.append({k:r[k] for k in ('id','revision','username','text','reply','work_id')})
             if len({i['work_id'] for i in items})!=1: raise ValueError('同一批只能发送一条作品的评论。')
             work=next((w for w in works if w['id']==items[0]['work_id']),None)
@@ -261,6 +275,11 @@ def dispatch(state,action,request,works):
         return console.start('export',work)
     if action=='edit': return console.edit(request)
     if action=='queue': return console.queue(request.get('work_id'))
+    if action=='generate':
+        work=next((w for w in works if w['id']==request.get('work_id') and w.get('status')=='公开'),None)
+        if not work:raise ValueError('请选择有效的公开作品。')
+        from comment_ai import start
+        return start(state,work)
     if action=='preview': return console.preview(request.get('ids'),works)
     if action=='send':
         if request.get('confirmed') is not True: raise ValueError('需要确认预览中的具体批次。')

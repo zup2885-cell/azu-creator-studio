@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import signal
 from pathlib import Path
 import subprocess
 import sys
@@ -13,6 +14,12 @@ import urllib.request
 ROOT = Path(__file__).resolve().parent
 STATE = Path(os.environ.get('DOUYIN_STATE_DIR',str(Path.home()/'Library/Application Support/TzFilmDouyin')))
 URL = 'http://127.0.0.1:8766'
+VERSION = '1.4.0'
+
+def service_info():
+    try:
+        with urllib.request.urlopen(URL+'/api/health',timeout=1) as response:return json.load(response)
+    except (OSError,ValueError):return {}
 
 def health():
     try:
@@ -21,9 +28,26 @@ def health():
     except (OSError, ValueError):
         return False
 
-def start():
-    if health():
+def start(force=False):
+    info=service_info()
+    if info.get('service')=='azu-douyin-studio' and info.get('version')==VERSION and not force:
         return False
+    if info.get('service')=='azu-douyin-studio':
+        # Upgrade only our recorded server, never an unrelated port owner.
+        try:
+            # The pid file can be stale after an earlier manual restart.
+            owners=subprocess.check_output(['/usr/sbin/lsof','-nP','-iTCP:8766','-sTCP:LISTEN','-t'],text=True).split()
+            if len(set(owners))!=1:raise ValueError('ambiguous port owner')
+            pid=int(owners[0])
+            command=subprocess.check_output(['/bin/ps','-p',str(pid),'-o','args='],text=True)
+            if not command.strip().startswith(str(Path(sys.executable))+' '+str(ROOT/'server.py')):raise ValueError('server identity mismatch')
+            os.kill(pid,signal.SIGTERM)
+            for _ in range(30):
+                if not health():break
+                time.sleep(.1)
+            if health():raise ValueError('server did not stop')
+        except (OSError,ValueError,subprocess.SubprocessError):
+            raise RuntimeError('旧版创作台仍在运行，未确认进程归属，已保留原服务。请关闭旧版后重开。') from None
     if not (ROOT/'dist/index.html').is_file():
         raise RuntimeError('页面构建文件缺失，请先在 local-tool 中运行 npm run build。')
     STATE.mkdir(parents=True,exist_ok=True)
@@ -47,9 +71,10 @@ def start():
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--open',action='store_true')
+    parser.add_argument('--restart',action='store_true')
     args=parser.parse_args()
     try:
-        created=start()
+        created=start(args.restart)
         print(('创作台已启动：' if created else '创作台已在运行：')+URL)
         if args.open:
             subprocess.run(['/usr/bin/open',URL],check=True)

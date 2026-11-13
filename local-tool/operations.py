@@ -109,7 +109,7 @@ def ingest_excel(path,not_before):
     update_state(STATE,phase='analysis_pending',last_success_at=captured,last_attempt_at=not_before,last_error=None)
     return {'snapshot_id':snap['id'],'capture_time':captured,'rows':len(rows),'public_count':snap['public_count'],'totals':snap['totals']}
 
-def save_analysis(path):
+def save_analysis(path,provider='Codex 自动化'):
     from server import STATE
     doc=json.loads(Path(path).read_text())
     context=analysis_context()
@@ -122,9 +122,12 @@ def save_analysis(path):
         if not isinstance(item,dict) or any(not isinstance(item.get(key),str) or len(item[key])>3000 for key in ('title','evidence','interpretation')):raise ValueError('分析发现应明确分开证据与解释')
     if any(not isinstance(v,str) or len(v)>3000 for key in ('actions','limitations') for v in doc[key]):raise ValueError('建议或限制格式无效')
     report={key:doc[key] for key in ('snapshot_id','source_sha256','summary','findings','actions','limitations')}
-    report.update(generated_at=timestamp(),provider='Codex 自动化',capture_time=context['capture_time'])
+    report.update(generated_at=timestamp(),provider=provider,capture_time=context['capture_time'])
     atomic_json(STATE/'analyses'/f'{context["snapshot_id"]}.json',report)
-    update_state(STATE,phase='idle' if read_state(STATE)['last_success_at'] else 'capture_pending')
+    current=read_state(STATE)
+    # A report about retained data must not clear a newer collection failure.
+    phase='needs_attention' if current['last_error'] or current['phase']=='needs_attention' else 'idle' if current['last_success_at'] else 'capture_pending'
+    update_state(STATE,phase=phase)
     return {'ok':True,'snapshot_id':context['snapshot_id'],'generated_at':report['generated_at'],'provider':report['provider']}
 
 if __name__=='__main__':

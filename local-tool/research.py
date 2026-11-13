@@ -83,7 +83,9 @@ def reach_binary():
 
 
 def skill_path(name):
-    return Path.home() / '.codex/skills' / name / 'SKILL.md'
+    # User-owned GitHub skill storage survives moved desktop project folders.
+    primary=Path.home() / 'GitHub/skills' / name / 'SKILL.md'
+    return primary if primary.is_file() else Path.home() / '.codex/skills' / name / 'SKILL.md'
 
 
 def normalize_item(raw, platform=None, source='manual'):

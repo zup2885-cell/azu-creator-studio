@@ -40,6 +40,13 @@ class DailyWorkflow(unittest.TestCase):
         path=self.state/'report.json';path.write_text(json.dumps(doc))
         with self.assertRaises(ValueError):operations.save_analysis(path)
         self.assertFalse((self.state/'analyses').exists())
+    def test_review_of_retained_data_does_not_clear_collection_failure(self):
+        operations.update_state(self.state,phase='needs_attention',last_error='本人登录需要更新',last_success_at='2026-01-01 12:00:00')
+        path=self.state/'report.json';path.write_text(json.dumps(self.report()))
+        operations.save_analysis(path,provider='本机 Codex')
+        state=operations.read_state(self.state)
+        self.assertEqual(state['phase'],'needs_attention')
+        self.assertEqual(state['last_error'],'本人登录需要更新')
     def test_missing_evidence_rejected(self):
         doc=self.report();del doc['findings'][0]['evidence']
         path=self.state/'report.json';path.write_text(json.dumps(doc))

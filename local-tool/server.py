@@ -108,8 +108,13 @@ def snapshots():
 
 def payload():
     valid, errors = snapshots()
+    from work_covers import enrich
+    enrich(STATE,valid)
     from operations import read_state,read_analyses
-    return {'snapshots':valid,'errors':errors,'loaded_at':now(),'local_only':True,'automation':read_state(STATE),'analyses':read_analyses(STATE,valid)}
+    from studio_jobs import view
+    latest=valid[0] if valid else None
+    age=(datetime.now(TZ)-datetime.strptime(latest['capture_time'],'%Y-%m-%d %H:%M:%S').replace(tzinfo=TZ)).total_seconds()/3600 if latest else None
+    return {'snapshots':valid,'errors':errors,'loaded_at':now(),'local_only':True,'automation':read_state(STATE),'analyses':read_analyses(STATE,valid),'studio_job':view(STATE),'freshness':{'age_hours':round(max(0,age),1) if age is not None else None,'is_stale':age is None or age>24,'time_verified':bool(latest and latest['time_kind']=='capture')}}
 
 def export_csv(snapshot_id, status='公开', query='', sort='pub_date'):
     valid,_ = snapshots()
@@ -225,7 +230,21 @@ class Handler(SimpleHTTPRequestHandler):
         if path == '/api/data':
             return self.respond(payload())
         if path == '/api/health':
-            return self.respond({'ok':True,'service':'azu-douyin-studio','version':'1.2.0','research':True})
+            return self.respond({'ok':True,'service':'azu-douyin-studio','version':'1.4.0','research':True,'creator_sync':True,'manual_review':True})
+        if path.startswith('/api/work-covers/'):
+            from work_covers import asset
+            try:
+                file,mime=asset(STATE,path.rsplit('/',1)[-1]);content=file.read_bytes()
+                self.send_response(200);self.send_header('Content-Type',mime);self.send_header('Content-Length',str(len(content)));self.send_header('X-Content-Type-Options','nosniff');self.send_header('Cache-Control','private, max-age=3600');self.end_headers();self.wfile.write(content)
+            except (ValueError,OSError):self.respond({'error':'封面尚未取得'},404)
+            return
+        if path == '/api/work-reviews':
+            from work_review import reports
+            valid,_=snapshots()
+            return self.respond({'reports':reports(STATE,valid)})
+        if path == '/api/studio/status':
+            from studio_jobs import view
+            return self.respond(view(STATE))
         if path == '/api/research':
             from research import Research
             return self.respond(Research(STATE).view())
@@ -278,15 +297,27 @@ class Handler(SimpleHTTPRequestHandler):
         if not self.allowed():
             return self.respond({'error':'仅允许本机访问'},403)
         path = urlsplit(self.path).path
+        if path.startswith('/api/studio/'):
+            if self.headers.get('Origin') not in ('http://127.0.0.1:8766','http://localhost:8766','http://127.0.0.1:4186','http://localhost:4186') or self.headers.get('Content-Type','').split(';')[0]!='application/json':
+                return self.respond({'error':'请从本人本地创作台操作'},403)
+            try:
+                length=int(self.headers.get('Content-Length','0'))
+                if not 0<length<=65536:return self.respond({'error':'请求大小无效'},413)
+                document=json.loads(self.rfile.read(length))
+                if not isinstance(document,dict):raise ValueError('请求格式无效')
+                from studio_jobs import start
+                return self.respond(start(STATE,path.rsplit('/',1)[-1],request=document))
+            except (ValueError,TypeError) as exc:return self.respond({'error':str(exc)},400)
+            except Exception:return self.respond({'error':'任务启动失败，原数据已保留。'},500)
         if path=='/api/research/media-upload':
             if self.headers.get('Origin') not in ('http://127.0.0.1:8766','http://localhost:8766','http://127.0.0.1:4186','http://localhost:4186') or self.headers.get('Content-Type','').split(';')[0]!='application/octet-stream':
                 return self.respond({'error':'请通过本地研究页面导入文件'},403)
             try:
                 from research import Research
-                from research_media import receive_upload,MAX_UPLOAD
+                from research_media import receive_upload,MAX_UPLOAD as MEDIA_UPLOAD_LIMIT
                 from urllib.parse import unquote
                 length=int(self.headers.get('Content-Length','0'))
-                if not 0<length<=MAX_UPLOAD:return self.respond({'error':'文件需非空且不超过500 MB'},413)
+                if not 0<length<=MEDIA_UPLOAD_LIMIT:return self.respond({'error':'文件需非空且不超过500 MB'},413)
                 self.connection.settimeout(120)
                 return self.respond(receive_upload(Research(STATE),self.rfile,length,unquote(self.headers.get('X-Filename','')),self.headers.get('X-Item-ID','')))
             except (ValueError,TypeError) as exc:return self.respond({'error':str(exc)},400)
